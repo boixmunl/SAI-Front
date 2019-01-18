@@ -1,0 +1,27 @@
+<div *ngIf="cell">
+
+  <h2>{{cell.location | uppercase}} {{'cell.details' | translate}}</h2>
+  <div>
+    <tr>
+      <td>{{'cell.id' | translate}}:</td>
+      <td>{{cell.id}}</td>
+    </tr>
+    <tr>
+      <td>{{'cell.batteryVoltage' | translate}}:</td>
+      <td>{{cell.batteryVoltage}} V</td>
+    </tr>
+    <tr>
+      <td>{{'cell.batteryLevel' | translate}}:</td>
+      <td>{{cell.batteryLevel}} %</td>
+    </tr>
+    <tr>
+      <td>{{'cell.inverterVoltage' | translate}}:</td>
+      <td>{{cell.inverterVoltage}} V</td>
+    </tr>
+    <tr>
+      <td>{{'cell.cellStatus' | translate}}:</td>
+      <td>{{cell.cellStatus}}</td>
+    </tr>
+  </div>
+
+</div>

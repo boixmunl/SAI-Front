@@ -1,0 +1,13 @@
+{
+  "sidebar": {
+    "title": "Cells"
+  },
+  "cell": {
+    "details": "Details",
+    "id": "ID",
+    "batteryVoltage": "Battery Voltage",
+    "batteryLevel": "Battery Level",
+    "inverterVoltage": "Inverter Voltage",
+    "cellStatus": "Cell Status"
+  }
+}
