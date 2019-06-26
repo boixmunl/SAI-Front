@@ -8,6 +8,7 @@
     "batteryVoltage": "Battery Voltage",
     "batteryLevel": "Battery Level",
     "inverterVoltage": "Inverter Voltage",
-    "cellStatus": "Cell Status"
+    "cellStatus": "Cell Status",
+    "dateLastInfo": "Last Info Date"
   }
 }

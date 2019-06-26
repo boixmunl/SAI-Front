@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import {CELLS} from '../../mock-cell';
+import {CellService} from '../../cell.service';
 import { Cell } from '../../cell';
+import {Observable, forkJoin} from 'rxjs';
 
 @Component({
   selector: 'app-sidebar',
@@ -9,12 +10,13 @@ import { Cell } from '../../cell';
 })
 export class SidebarComponent implements OnInit {
   protected _opened = false;
-  protected cells = CELLS;
+  protected cells: Observable<Cell[]> ;
   protected selectedCell: Cell;
-  constructor() { }
+  constructor(private cellService: CellService) { }
 
   ngOnInit() {
-
+    this.getCells();
+    this.cells.subscribe(cell => this.selectedCell = cell[0]);
   }
 
   protected _toggleSidebar() {
@@ -23,5 +25,11 @@ export class SidebarComponent implements OnInit {
 
   protected onSelect(cell: Cell): void {
     this.selectedCell = cell;
+  }
+  private getCells() {
+    // this.cellService.getCells().forEach(cellObs => cellObs.subscribe(cell => cells.push(cell)));
+    this.cells = forkJoin(this.cellService.getCells());
+    this.cells.subscribe(cell => console.log(cell));
+    // this.cells.subscribe(cell => console.log(cell));
   }
 }

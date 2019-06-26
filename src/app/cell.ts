@@ -5,4 +5,14 @@ export class Cell {
   batteryVoltage: number;
   inverterVoltage: number;
   cellStatus: string;
+  altitude: number;
+  latitude: number;
+  longitude: number;
+  dateLastInfo: string;
+  humidity: number;
+  temperature: number;
+  ppm: number;
+  raw: number;
+  rzero: number;
+  temp: number;
 }
