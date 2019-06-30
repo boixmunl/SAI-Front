@@ -2,13 +2,31 @@
   "sidebar": {
     "title": "Cells"
   },
+  "dataType": {
+    "basicInfo": "Cell basic info",
+    "batteryInfo": "Battery info",
+    "environmentInfo": "Environment info",
+    "airQuality": "Air quality info"
+  },
   "cell": {
     "details": "Details",
     "id": "ID",
     "batteryVoltage": "Battery Voltage",
     "batteryLevel": "Battery Level",
     "inverterVoltage": "Inverter Voltage",
-    "cellStatus": "Cell Status",
-    "dateLastInfo": "Last Info Date"
+    "cellStatus": {
+      "title": "Cell Status",
+      "status": {
+        "low": "Low",
+        "normal": "Normal",
+        "good": "Good"
+      }
+    },
+    "dateLastInfo": "Last Info Date",
+    "humidity": "Humidity",
+    "temperature": "Temperature",
+    "ppm": "PPM",
+    "raw": "RAW",
+    "rzero": "rZero"
   }
 }

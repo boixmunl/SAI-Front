@@ -3,10 +3,10 @@
   <ng-sidebar [(opened)]="_opened" position="right">
     <h2 class="sidebarTitle">{{ 'sidebar.title' | translate }}</h2>
     <ul class="cells">
-      <li *ngFor="let cell of (cells | async)"
-      [class.selected]="cell === selectedCell"
-      (click)="onSelect(cell)">
-       <span class="badge">{{cell.id}}</span> {{cell.location}}
+      <li *ngFor="let cell of (cells | async)">
+        <a routerLink="/cell/{{cell.id}}">
+          <span class="badge">{{cell.id}}</span> {{cell.location}}
+        </a>
       </li>
     </ul>
   </ng-sidebar>

@@ -14,5 +14,4 @@ export class Cell {
   ppm: number;
   raw: number;
   rzero: number;
-  temp: number;
 }

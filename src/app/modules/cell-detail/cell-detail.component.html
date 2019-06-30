@@ -2,10 +2,16 @@
 
   <h2>{{cell.location | uppercase}} {{'cell.details' | translate}}</h2>
   <div>
+    <h3>{{'dataType.basicInfo' | translate}}</h3>
     <tr>
       <td>{{'cell.id' | translate}}:</td>
       <td>{{cell.id}}</td>
     </tr>
+    <tr>
+      <td>{{'cell.dateLastInfo' | translate}}:</td>
+      <td>{{cell.dateLastInfo}} V</td>
+    </tr>
+    <h3>{{'dataType.batteryInfo' | translate}}</h3>
     <tr>
       <td>{{'cell.batteryVoltage' | translate}}:</td>
       <td>{{cell.batteryVoltage}} V</td>
@@ -15,12 +21,30 @@
       <td>{{cell.batteryLevel}} %</td>
     </tr>
     <tr>
-      <td>{{'cell.dateLastInfo' | translate}}:</td>
-      <td>{{cell.dateLastInfo}} V</td>
+      <td>{{'cell.cellStatus.title' | translate}}:</td>
+      <td>{{'cell.cellStatus.status.' + cell.cellStatus | translate}}</td>
+    </tr>
+    <h3>{{'dataType.environmentInfo' | translate}}</h3>
+    <tr>
+      <td>{{'cell.humidity' | translate}}:</td>
+      <td>{{cell.humidity}} %</td>
     </tr>
     <tr>
-      <td>{{'cell.cellStatus' | translate}}:</td>
-      <td>{{cell.cellStatus}}</td>
+      <td>{{'cell.temperature' | translate}}:</td>
+      <td>{{cell.temperature}} ºC</td>
+    </tr>
+    <h3>{{'dataType.airQuality' | translate}}</h3>
+    <tr>
+      <td>{{'cell.ppm' | translate}}:</td>
+      <td>{{cell.ppm}} ppm</td>
+    </tr>
+    <tr>
+      <td>{{'cell.raw' | translate}}:</td>
+      <td>{{cell.raw}}</td>
+    </tr>
+    <tr>
+      <td>{{'cell.rzero' | translate}}:</td>
+      <td>{{cell.rzero}}</td>
     </tr>
   </div>
 

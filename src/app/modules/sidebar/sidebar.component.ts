@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {CellService} from '../../cell.service';
 import { Cell } from '../../cell';
 import {Observable, forkJoin} from 'rxjs';
+import {ActivatedRoute} from '@angular/router';
 
 @Component({
   selector: 'app-sidebar',
@@ -12,7 +13,8 @@ export class SidebarComponent implements OnInit {
   protected _opened = false;
   protected cells: Observable<Cell[]> ;
   protected selectedCell: Cell;
-  constructor(private cellService: CellService) { }
+
+  constructor(private cellService: CellService, private route: ActivatedRoute) {}
 
   ngOnInit() {
     this.getCells();
@@ -27,9 +29,9 @@ export class SidebarComponent implements OnInit {
     this.selectedCell = cell;
   }
   private getCells() {
-    // this.cellService.getCells().forEach(cellObs => cellObs.subscribe(cell => cells.push(cell)));
-    this.cells = forkJoin(this.cellService.getCells());
+    const id: string[] = [];
+    id.push(this.route.snapshot.paramMap.get('id'));
+    this.cells = forkJoin(this.cellService.getCells(id));
     this.cells.subscribe(cell => console.log(cell));
-    // this.cells.subscribe(cell => console.log(cell));
   }
 }

@@ -10,23 +10,24 @@ import {map} from 'rxjs/operators';
 })
 export class CellService {
   protected cell: Cell;
-  protected baseURLs = ['http://3de90d15.ngrok.io'];
+  private protocol = 'http://';
+  private domain = '.ngrok.io';
   private radix = 10;
 
 
   constructor(private httpClient: HttpClient) { }
 
-  getCells(): Observable<Cell>[] {
+  getCells(id: string[]): Observable<Cell>[] {
     let cells: Observable<Cell>[];
     cells = [];
-    this.baseURLs.forEach( (url) => {
-      cells.push(this.getDataFromCell(url));
+    id.forEach( (uId) => {
+      cells.push(this.getDataFromCell(uId));
     });
     return cells;
   }
 
   getDataFromCell(url: string): Observable<Cell> {
-    return this.httpClient.get(url + '/data').pipe(map(res => {
+    return this.httpClient.get(this.protocol + url + this.domain + '/data').pipe(map(res => {
       return this.mapCell(res);
     }));
   }
@@ -37,43 +38,53 @@ export class CellService {
       cell = new Cell();
       const obj1 = obj;
       if (obj1.id) {
-        cell.id = obj1.id;
+        cell.id = obj1.id.split('/')[2].split('.')[0];
       }
       if (obj1.alt) {
-        cell.altitude = parseInt(obj1.alt, this.radix);
+        cell.altitude = this.parseFloatFromCell(obj1.alt);
       }
       if (obj1.bat) {
-        cell.batteryVoltage = parseInt(obj1.bat, this.radix);
-      }
-      if (obj1.bat) {
-        cell.batteryLevel = parseInt(obj1.bat, this.radix) / 15;
+        cell.batteryVoltage = this.parseFloatFromCell(obj1.bat);
+        cell.batteryLevel = parseFloat((parseFloat(obj1.bat) / 15).toFixed(2));
+        if (cell.batteryLevel < 20) {
+          cell.cellStatus = 'low';
+        } else if (cell.batteryLevel >= 20 && cell.batteryLevel < 60) {
+          cell.cellStatus = 'normal';
+        } else {
+          cell.cellStatus = 'good';
+        }
+
       }
       if (obj1.dateLastInfo) {
         cell.dateLastInfo = obj1.dateLastInfo;
       }
       if (obj1.hum) {
-        cell.humidity = parseInt(obj1.hum, this.radix);
-      }
-      if (obj1.lat) {
-        cell.latitude = parseInt(obj1.lat, this.radix);
-      }
-      if (obj1.long) {
-        cell.longitude = parseInt(obj1.long, this.radix);
-      }
-      if (obj1.ppm) {
-        cell.ppm = parseInt(obj1.ppm, this.radix);
-      }
-      if (obj1.raw) {
-        cell.raw = parseInt(obj1.raw, this.radix);
-      }
-      if (obj1.rzero) {
-        cell.rzero = parseInt(obj1.rzero, this.radix);
+        cell.humidity = this.parseFloatFromCell(obj1.hum);
       }
       if (obj1.temp) {
-        cell.temp = parseInt(obj1.temp, this.radix);
+        cell.temperature = this.parseFloatFromCell(obj1.temp);
+      }
+      if (obj1.lat) {
+        cell.latitude = this.parseFloatFromCell(obj1.lat);
+      }
+      if (obj1.long) {
+        cell.longitude = this.parseFloatFromCell(obj1.long);
+      }
+      if (obj1.ppm) {
+        cell.ppm = this.parseFloatFromCell(obj1.ppm);
+      }
+      if (obj1.raw) {
+        cell.raw = this.parseFloatFromCell(obj1.raw);
+      }
+      if (obj1.rzero) {
+        cell.rzero = this.parseFloatFromCell(obj1.rzero);
       }
       return cell;
     }
     return null;
+  }
+
+  parseFloatFromCell(param: string): number {
+    return parseFloat(param) / 100;
   }
 }
