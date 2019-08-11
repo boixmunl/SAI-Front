@@ -10,9 +10,9 @@ import {ActivatedRoute} from '@angular/router';
   styleUrls: ['./sidebar.component.css']
 })
 export class SidebarComponent implements OnInit {
-  protected _opened = false;
-  protected cells: Observable<Cell[]> ;
-  protected selectedCell: Cell;
+  public _opened = false;
+  public cells: Observable<Cell[]> ;
+  public selectedCell: Cell;
 
   constructor(private cellService: CellService, private route: ActivatedRoute) {}
 
@@ -21,17 +21,16 @@ export class SidebarComponent implements OnInit {
     this.cells.subscribe(cell => this.selectedCell = cell[0]);
   }
 
-  protected _toggleSidebar() {
+  public _toggleSidebar() {
     this._opened = !this._opened;
   }
 
-  protected onSelect(cell: Cell): void {
+  public onSelect(cell: Cell): void {
     this.selectedCell = cell;
   }
   private getCells() {
-    const id: string[] = [];
+    let id: string[] = [];
     id.push(this.route.snapshot.paramMap.get('id'));
     this.cells = forkJoin(this.cellService.getCells(id));
-    this.cells.subscribe(cell => console.log(cell));
   }
 }

@@ -5,9 +5,7 @@ export class Cell {
   batteryVoltage: number;
   inverterVoltage: number;
   cellStatus: string;
-  altitude: number;
-  latitude: number;
-  longitude: number;
+  position: {lat: number, long: number, alt: number };
   dateLastInfo: string;
   humidity: number;
   temperature: number;

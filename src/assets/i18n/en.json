@@ -6,7 +6,8 @@
     "basicInfo": "Cell basic info",
     "batteryInfo": "Battery info",
     "environmentInfo": "Environment info",
-    "airQuality": "Air quality info"
+    "airQuality": "Air quality info",
+    "gps": "GPS"
   },
   "cell": {
     "details": "Details",
@@ -27,6 +28,9 @@
     "temperature": "Temperature",
     "ppm": "PPM",
     "raw": "RAW",
-    "rzero": "rZero"
+    "rzero": "rZero",
+    "longitude": "Longitude",
+    "latitude": "Latitude",
+    "altitude": "Altitude"
   }
 }
