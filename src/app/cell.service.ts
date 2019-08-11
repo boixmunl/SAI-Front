@@ -40,8 +40,9 @@ export class CellService {
       if (obj1.id) {
         cell.id = obj1.id;
       }
+      console.log(obj1);
       if (obj1.bat) {
-        cell.batteryVoltage = this.parseFloatFromCell(obj1.bat) / 10;
+        cell.batteryVoltage = this.parseBattery(obj1.bat);
         cell.batteryLevel = parseFloat((parseFloat(obj1.bat) / 147).toFixed(2));
         if (cell.batteryLevel < 20) {
           cell.cellStatus = 'low';
@@ -84,6 +85,10 @@ export class CellService {
     } else {
       return null;
     }
+  }
+
+  parseBattery(bat: string): number {
+    return this.parseFloatFromCell(bat) * 1142 / 50700;
   }
 
   parseGPSData(lat: string, long: string, alt: string): {lat: number, long: number, alt: number } {
