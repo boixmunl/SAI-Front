@@ -123,7 +123,6 @@ export class CellDetailComponent implements OnInit {
   constructor(private httpClient: HttpClient, private cellService: CellService) { }
 
   ngOnInit() {
-    this.updateChartSize();
   }
 
   @HostListener('window:resize', ['$event'])
@@ -132,13 +131,11 @@ export class CellDetailComponent implements OnInit {
   }
 
   updateChartSize(){
-    setTimeout(() => {
-      let x=window.innerWidth;
-      if(x !== NaN && x <= 500){
-        Highcharts.charts[0].setSize(x-50,400,false);
-      } else {
-        Highcharts.charts[0].setSize(500,400,false);
-      }
-    },5000);
+    let x=window.innerWidth;
+    if(x !== NaN && x <= 500){
+      Highcharts.charts[0].setSize(x-50,400,false);
+    } else {
+      Highcharts.charts[0].setSize(500,400,false);
+    }
   }
 }
