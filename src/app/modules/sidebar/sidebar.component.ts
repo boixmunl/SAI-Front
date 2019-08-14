@@ -13,12 +13,16 @@ export class SidebarComponent implements OnInit {
   public _opened = false;
   public cells: Observable<Cell[]> ;
   public selectedCell: Cell;
+  public plotData= [];
 
   constructor(private cellService: CellService, private route: ActivatedRoute) {}
 
   ngOnInit() {
     this.getCells();
-    this.cells.subscribe(cell => this.selectedCell = cell[0]);
+    this.cells.subscribe(cell => {
+      this.selectedCell = cell[0];
+      this.plotData=this.selectedCell.plotData;
+    });
   }
 
   public _toggleSidebar() {

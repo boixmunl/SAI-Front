@@ -5,59 +5,64 @@
     <h3>{{'dataType.basicInfo' | translate}}</h3>
     <tr>
       <td>{{'cell.id' | translate}}:</td>
-      <td>{{cell.id}}</td>
+      <td>{{cell?.id}}</td>
     </tr>
     <tr>
       <td>{{'cell.dateLastInfo' | translate}}:</td>
-      <td>{{cell.dateLastInfo}} V</td>
+      <td>{{cell?.dateLastInfo}} V</td>
     </tr>
     <h3>{{'dataType.batteryInfo' | translate}}</h3>
     <tr>
       <td>{{'cell.batteryVoltage' | translate}}:</td>
-      <td>{{cell.batteryVoltage}} V</td>
+      <td>{{cell?.batteryVoltage}} V</td>
     </tr>
     <tr>
       <td>{{'cell.batteryLevel' | translate}}:</td>
-      <td>{{cell.batteryLevel}} %</td>
+      <td>{{cell?.batteryLevel}} %</td>
     </tr>
     <tr>
       <td>{{'cell.cellStatus.title' | translate}}:</td>
       <td>{{'cell.cellStatus.status.' + cell.cellStatus | translate}}</td>
     </tr>
+    <highcharts-chart 
+      [Highcharts]="Highcharts"
+      [options]="chartOptions"
+      style="width: 100%; height: 400px; display: block;"
+    ></highcharts-chart>
     <h3>{{'dataType.environmentInfo' | translate}}</h3>
     <tr>
       <td>{{'cell.humidity' | translate}}:</td>
-      <td>{{cell.humidity}} %</td>
+      <td>{{cell?.humidity}} %</td>
     </tr>
     <tr>
       <td>{{'cell.temperature' | translate}}:</td>
-      <td>{{cell.temperature}} ºC</td>
+      <td>{{cell?.temperature}} ºC</td>
     </tr>
     <h3>{{'dataType.airQuality' | translate}}</h3>
     <tr>
       <td>{{'cell.ppm' | translate}}:</td>
-      <td>{{cell.ppm}} ppm</td>
+      <td>{{cell?.ppm}} ppm</td>
     </tr>
     <tr>
       <td>{{'cell.raw' | translate}}:</td>
-      <td>{{cell.raw}}</td>
+      <td>{{cell?.raw}}</td>
     </tr>
     <tr>
       <td>{{'cell.rzero' | translate}}:</td>
-      <td>{{cell.rzero}}</td>
+      <td>{{cell?.rzero}}</td>
     </tr>
     <h3>{{'dataType.gps' | translate}}</h3>
     <tr>
       <td>{{'cell.longitude' | translate}}:</td>
-      <td>{{cell.position.long}}</td>
+      <td>{{cell?.position?.long}}</td>
     </tr>
     <tr>
       <td>{{'cell.latitude' | translate}}:</td>
-      <td>{{cell.position.lat}}</td>
+      <td>{{cell?.position?.lat}}</td>
     </tr>
     <tr>
       <td>{{'cell.altitude' | translate}}:</td>
-      <td>{{cell.position.alt}}</td>
+      <td>{{cell?.position?.alt}}</td>
     </tr>
   </div>
 

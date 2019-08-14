@@ -10,7 +10,7 @@ import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { AppRoutingModule } from './/app-routing.module';
 import {HashLocationStrategy, LocationStrategy} from '@angular/common';
-
+import { HighchartsChartModule } from 'highcharts-angular';
 
 @NgModule({
   declarations: [
@@ -29,7 +29,8 @@ import {HashLocationStrategy, LocationStrategy} from '@angular/common';
         deps: [HttpClient]
       }
     }),
-    AppRoutingModule
+    AppRoutingModule,
+    HighchartsChartModule
   ],
   providers: [
     {provide: LocationStrategy, useClass: HashLocationStrategy},

@@ -1,10 +1,11 @@
 import { Injectable } from '@angular/core';
 import {Cell} from './cell';
 import { HttpClient } from '@angular/common/http';
-import {Observable, of} from 'rxjs';
+import {Observable, of, forkJoin} from 'rxjs';
 import {map} from 'rxjs/operators';
 import * as CryptoJS from 'crypto-js';
 import {CELL1} from './mock-cell';
+import {formatDate} from '@angular/common';
 
 @Injectable({
   providedIn: 'root'
@@ -14,7 +15,7 @@ export class CellService {
   private protocol = 'http://';
   private domain = '.ngrok.io';
   private encryptSecretKey = 'd6F3Efeq';
-
+  private plotDaysBefore = 30;
 
   constructor(private httpClient: HttpClient) { }
 
@@ -28,8 +29,12 @@ export class CellService {
   }
 
   getDataFromCell(url: string): Observable<Cell> {
-    return this.httpClient.get(this.protocol + url + this.domain + '/data', {responseType: 'text'})
-      .pipe(res => this.decrypt(res), map(res => this.mapCell(this.decrypt(res))));
+    return forkJoin(this.getSensorDataFromCell(url), 
+    this.getPlotDataFromCell(url)
+    ).pipe(map(([res1, res2]) => {
+        res1.plotData=res2;
+        return res1;
+      }));
   }
 
   mapCell(obj: any): Cell {
@@ -40,7 +45,6 @@ export class CellService {
       if (obj1.id) {
         cell.id = obj1.id;
       }
-      console.log(obj1);
       if (obj1.bat) {
         cell.batteryVoltage = this.parseBattery(obj1.bat);
         cell.batteryLevel = parseFloat((parseFloat(obj1.bat) / 147).toFixed(2));
@@ -88,7 +92,7 @@ export class CellService {
   }
 
   parseBattery(bat: string): number {
-    return this.parseFloatFromCell(bat) * 1142 / 50700;
+    return this.parseFloatFromCell(bat) / 10;
   }
 
   parseGPSData(lat: string, long: string, alt: string): {lat: number, long: number, alt: number } {
@@ -109,5 +113,25 @@ export class CellService {
     } catch (e) {
       console.log(e);
     }
+  }
+
+  getSensorDataFromCell(url: string): Observable<Cell>{
+    return this.httpClient.get(this.protocol + url + this.domain + '/data', {responseType: 'text'})
+    .pipe(res => this.decrypt(res), map(res => this.mapCell(this.decrypt(res))))
+  }
+
+  getPlotDataFromCell(url: string): Observable<any[]>{
+  return this.httpClient.get(this.protocol + url + this.domain + '/battery_query.json?num_obs=-1&start_date='+formatDate(new Date().setDate(new Date().getDate() - this.plotDaysBefore), 'yyyy-MM-dd', 'en')+'T16:00')
+    .pipe(res => this.decrypt(res), map((res:any) => {
+      var data: any[] = [];
+      var i = 0;
+      // Iterate JSON data series and add to plot
+      while (res.battery_record[0][i])
+      {
+        data.push([res.battery_record[0][i].unix_time, res.battery_record[0][i].charge]);
+        i++;
+      }
+      return data;
+    }));
   }
 }

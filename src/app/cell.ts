@@ -1,5 +1,5 @@
 export class Cell {
-  id: number;
+  id: string;
   location: string;
   batteryLevel: number;
   batteryVoltage: number;
@@ -12,4 +12,5 @@ export class Cell {
   ppm: number;
   raw: number;
   rzero: number;
+  plotData: any[] = [];
 }
