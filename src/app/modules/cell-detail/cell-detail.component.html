@@ -1,5 +1,4 @@
 <div *ngIf="cell">
-
   <h2>{{cell.location | uppercase}} {{'cell.details' | translate}}</h2>
   <div>
     <h3>{{'dataType.basicInfo' | translate}}</h3>
@@ -24,11 +23,13 @@
       <td>{{'cell.cellStatus.title' | translate}}:</td>
       <td>{{'cell.cellStatus.status.' + cell.cellStatus | translate}}</td>
     </tr>
-    <highcharts-chart 
-      [Highcharts]="Highcharts"
-      [options]="chartOptions"
-      style="width: 100%; height: 400px; display: block;"
-    ></highcharts-chart>
+  </div>
+  <highcharts-chart 
+    [Highcharts]="Highcharts"
+    [options]="chartOptions"
+    style="width: 100%; height: 400px; display: block;"
+  ></highcharts-chart>
+  <div>
     <h3>{{'dataType.environmentInfo' | translate}}</h3>
     <tr>
       <td>{{'cell.humidity' | translate}}:</td>

@@ -117,12 +117,12 @@ export class CellService {
 
   getSensorDataFromCell(url: string): Observable<Cell>{
     return this.httpClient.get(this.protocol + url + this.domain + '/data', {responseType: 'text'})
-    .pipe(res => this.decrypt(res), map(res => this.mapCell(this.decrypt(res))))
+    .pipe(map(res => this.decrypt(res)), map(res => this.mapCell(this.decrypt(res))))
   }
 
   getPlotDataFromCell(url: string): Observable<any[]>{
-  return this.httpClient.get(this.protocol + url + this.domain + '/battery_query.json?num_obs=-1&start_date='+formatDate(new Date().setDate(new Date().getDate() - this.plotDaysBefore), 'yyyy-MM-dd', 'en')+'T16:00')
-    .pipe(res => this.decrypt(res), map((res:any) => {
+  return this.httpClient.get(this.protocol + url + this.domain + '/battery_query.json?num_obs=-1&start_date='+formatDate(new Date().setDate(new Date().getDate() - this.plotDaysBefore), 'yyyy-MM-dd', 'en')+'T16:00', {responseType: 'text'})
+    .pipe(map(res => this.decrypt(res)), map((res:any) => {
       var data: any[] = [];
       var i = 0;
       // Iterate JSON data series and add to plot
