@@ -31,12 +31,12 @@ export class CellDetailComponent implements OnInit {
     },
     series: [{
       id: 'series',
-      name: 'DS18B20 sensor (\u00B10.5\u00B0C)',
+      name: 'SoC',
       type: 'line',
       data: [1, 2, 3]
     }],
     title: {
-      text: 'Plot of battery voltage'
+      text: 'Plot of battery state of charge'
     },
     subtitle: {
       text: 'Click and drag in the plot area to zoom in',
@@ -54,6 +54,7 @@ export class CellDetailComponent implements OnInit {
             layout: 'horizontal'
           },
           yAxis: {
+            min: 0, max: 100,
             labels: {
               align: 'left',
               x: 0,
@@ -83,7 +84,7 @@ export class CellDetailComponent implements OnInit {
       maxPadding: 0.2,
       showFirstLabel: false,
       title: {
-        text: 'battery \u00B0C',
+        text: 'Battery %',
         margin: 15
       }
     },
@@ -133,7 +134,7 @@ export class CellDetailComponent implements OnInit {
   updateChartSize(){
     let x=window.innerWidth;
     if(x !== NaN && x <= 500){
-      Highcharts.charts[0].setSize(x-50,400,false);
+      Highcharts.charts[0].setSize(x-55,400,false);
     } else {
       Highcharts.charts[0].setSize(500,400,false);
     }

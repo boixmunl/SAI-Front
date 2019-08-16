@@ -46,8 +46,8 @@ export class CellService {
         cell.id = obj1.id;
       }
       if (obj1.bat) {
-        cell.batteryVoltage = this.parseBattery(obj1.bat);
-        cell.batteryLevel = parseFloat((parseFloat(obj1.bat) / 147).toFixed(2));
+        cell.batteryVoltage = this.parseBattery(obj1.batVolt);
+        cell.batteryLevel = parseFloat(obj1.batPercent);
         if (cell.batteryLevel < 20) {
           cell.cellStatus = 'low';
         } else if (cell.batteryLevel >= 20 && cell.batteryLevel < 60) {

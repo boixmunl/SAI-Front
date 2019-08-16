@@ -13,7 +13,7 @@
     <h3>{{'dataType.batteryInfo' | translate}}</h3>
     <tr>
       <td>{{'cell.batteryVoltage' | translate}}:</td>
-      <td>{{cell?.batteryVoltage}} V</td>
+      <td>{{cell?.batteryVoltage | number : '1.2'}} V</td>
     </tr>
     <tr>
       <td>{{'cell.batteryLevel' | translate}}:</td>
@@ -33,7 +33,7 @@
     <h3>{{'dataType.environmentInfo' | translate}}</h3>
     <tr>
       <td>{{'cell.humidity' | translate}}:</td>
-      <td>{{cell?.humidity}} %</td>
+      <td>{{cell?.humidity | number}} %</td>
     </tr>
     <tr>
       <td>{{'cell.temperature' | translate}}:</td>
@@ -42,7 +42,7 @@
     <h3>{{'dataType.airQuality' | translate}}</h3>
     <tr>
       <td>{{'cell.ppm' | translate}}:</td>
-      <td>{{cell?.ppm}} ppm</td>
+      <td>{{cell?.ppm | number : '1.2'}} ppm</td>
     </tr>
     <tr>
       <td>{{'cell.raw' | translate}}:</td>
@@ -50,7 +50,7 @@
     </tr>
     <tr>
       <td>{{'cell.rzero' | translate}}:</td>
-      <td>{{cell?.rzero}}</td>
+      <td>{{cell?.rzero | number : '1.2'}}</td>
     </tr>
     <h3>{{'dataType.gps' | translate}}</h3>
     <tr>
@@ -63,7 +63,7 @@
     </tr>
     <tr>
       <td>{{'cell.altitude' | translate}}:</td>
-      <td>{{cell?.position?.alt}}</td>
+      <td>{{cell?.position?.alt | number : '1.2'}}</td>
     </tr>
   </div>
 
