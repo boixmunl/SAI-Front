@@ -1,10 +1,9 @@
 import { Injectable } from '@angular/core';
-import {Cell} from './cell';
+import {Cell} from '../model/cell';
 import { HttpClient } from '@angular/common/http';
-import {Observable, of, forkJoin} from 'rxjs';
+import {Observable, forkJoin} from 'rxjs';
 import {map} from 'rxjs/operators';
 import * as CryptoJS from 'crypto-js';
-import {CELL1} from './mock-cell';
 import {formatDate} from '@angular/common';
 
 @Injectable({
@@ -29,12 +28,12 @@ export class CellService {
   }
 
   getDataFromCell(url: string): Observable<Cell> {
-    return forkJoin(this.getSensorDataFromCell(url), 
-    this.getPlotDataFromCell(url)
+    return forkJoin(this.getSensorDataFromCell(url),
+      this.getPlotDataFromCell(url)
     ).pipe(map(([res1, res2]) => {
-        res1.plotData=res2;
-        return res1;
-      }));
+      res1.plotData = res2;
+      return res1;
+    }));
   }
 
   mapCell(obj: any): Cell {
@@ -45,9 +44,8 @@ export class CellService {
       if (obj1.id) {
         cell.id = obj1.id;
       }
-      if (obj1.bat) {
+      if (obj1.batVolt) {
         cell.batteryVoltage = this.parseBattery(obj1.batVolt);
-        cell.batteryLevel = parseFloat(obj1.batPercent);
         if (cell.batteryLevel < 20) {
           cell.cellStatus = 'low';
         } else if (cell.batteryLevel >= 20 && cell.batteryLevel < 60) {
@@ -55,10 +53,9 @@ export class CellService {
         } else {
           cell.cellStatus = 'good';
         }
-
       }
-      if (obj1.dateLastInfo) {
-        cell.dateLastInfo = obj1.dateLastInfo;
+      if (obj1.batPercent) {
+        cell.batteryLevel = parseFloat(obj1.batPercent);
       }
       if (obj1.hum) {
         cell.humidity = this.parseFloatFromCell(obj1.hum);
@@ -71,9 +68,6 @@ export class CellService {
       }
       if (obj1.ppm) {
         cell.ppm = this.parseFloatFromCell(obj1.ppm);
-      }
-      if (obj1.raw) {
-        cell.raw = this.parseFloatFromCell(obj1.raw);
       }
       if (obj1.rzero) {
         cell.rzero = this.parseFloatFromCell(obj1.rzero);
@@ -115,19 +109,19 @@ export class CellService {
     }
   }
 
-  getSensorDataFromCell(url: string): Observable<Cell>{
+  getSensorDataFromCell(url: string): Observable<Cell> {
     return this.httpClient.get(this.protocol + url + this.domain + '/data', {responseType: 'text'})
-    .pipe(map(res => this.decrypt(res)), map(res => this.mapCell(this.decrypt(res))))
+    .pipe(map(res => this.decrypt(res)), map(res => this.mapCell(this.decrypt(res))));
   }
 
-  getPlotDataFromCell(url: string): Observable<any[]>{
-  return this.httpClient.get(this.protocol + url + this.domain + '/battery_query.json?num_obs=-1&start_date='+formatDate(new Date().setDate(new Date().getDate() - this.plotDaysBefore), 'yyyy-MM-dd', 'en')+'T16:00', {responseType: 'text'})
-    .pipe(map(res => this.decrypt(res)), map((res:any) => {
-      var data: any[] = [];
-      var i = 0;
+  getPlotDataFromCell(url: string): Observable<any[]> {
+  return this.httpClient.get(this.protocol + url + this.domain + '/battery_query.json?num_obs=-1&start_date=' + formatDate(
+    new Date().setDate(new Date().getDate() - this.plotDaysBefore), 'yyyy-MM-dd', 'en') + 'T16:00', {responseType: 'text'})
+    .pipe(map(res => this.decrypt(res)), map((res: any) => {
+      const data: any[] = [];
+      let i = 0;
       // Iterate JSON data series and add to plot
-      while (res.battery_record[0][i])
-      {
+      while (res.battery_record[0][i]) {
         data.push([res.battery_record[0][i].unix_time, res.battery_record[0][i].charge]);
         i++;
       }

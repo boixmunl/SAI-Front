@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import {CellService} from '../../cell.service';
-import { Cell } from '../../cell';
+import {CellService} from '../../controller/cell.service';
+import { Cell } from '../../model/cell';
 import {Observable, forkJoin} from 'rxjs';
 import {ActivatedRoute} from '@angular/router';
 
@@ -13,16 +13,12 @@ export class SidebarComponent implements OnInit {
   public _opened = false;
   public cells: Observable<Cell[]> ;
   public selectedCell: Cell;
-  public plotData= [];
+  public plotData = [];
 
   constructor(private cellService: CellService, private route: ActivatedRoute) {}
 
   ngOnInit() {
     this.getCells();
-    this.cells.subscribe(cell => {
-      this.selectedCell = cell[0];
-      this.plotData=this.selectedCell.plotData;
-    });
   }
 
   public _toggleSidebar() {
@@ -33,8 +29,12 @@ export class SidebarComponent implements OnInit {
     this.selectedCell = cell;
   }
   private getCells() {
-    let id: string[] = [];
+    const id: string[] = [];
     id.push(this.route.snapshot.paramMap.get('id'));
     this.cells = forkJoin(this.cellService.getCells(id));
+    this.cells.subscribe(cell => {
+      this.selectedCell = cell[0];
+      this.plotData = this.selectedCell.plotData;
+    });
   }
 }

@@ -1,13 +1,13 @@
-<ng-sidebar-container style="height: -webkit-fill-available; width: -webkit-fill-available;">
+<ng-sidebar-container style="height: -webkit-fill-available; width: -webkit-fill-available; position: fixed">
 
   <ng-sidebar [(opened)]="_opened" position="right">
     <h2 class="sidebarTitle">{{ 'sidebar.title' | translate }}</h2>
     <ul class="cells">
-      <li *ngFor="let cell of (cells | async)">
+      <!--<li *ngFor="let cell of (cells | async)">
         <a routerLink="/cell/{{cell.id}}">
           <span class="badge">{{cell.id}}</span> {{cell.location}}
         </a>
-      </li>
+      </li>-->
     </ul>
   </ng-sidebar>
 

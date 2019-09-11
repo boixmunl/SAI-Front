@@ -1,31 +1,23 @@
-import { Component, Input, OnInit, SimpleChanges, HostListener } from '@angular/core';
-import { Cell } from '../../cell';
+import { Component, Input, OnInit, OnChanges, SimpleChanges, HostListener } from '@angular/core';
+import { Cell } from '../../model/cell';
 import * as Highcharts from 'highcharts';
 import { HttpClient } from '@angular/common/http';
-import { CellService } from 'src/app/cell.service';
+import { CellService } from 'src/app/controller/cell.service';
 
 @Component({
   selector: 'app-cell-detail',
   templateUrl: './cell-detail.component.html',
   styleUrls: ['./cell-detail.component.css']
 })
-export class CellDetailComponent implements OnInit {
+export class CellDetailComponent implements OnInit, OnChanges {
   @Input() cell: Cell;
 
   @Input() plotData;
 
-  ngOnChanges(changes: SimpleChanges) {
-    this.updateChart(changes.plotData.currentValue);
-  }
-
-  updateChart(data) {
-    this.options.series[0].data = data;
-  }
-
   options: Highcharts.Options = {
     chart: {
       renderTo: 'container',
-      //type: 'spline',
+      // type: 'spline',
       zoomType: 'x',
       reflow: true
     },
@@ -121,6 +113,14 @@ export class CellDetailComponent implements OnInit {
   Highcharts: typeof Highcharts = Highcharts; // required
   chartOptions: Highcharts.Options = this.options; // required
 
+  ngOnChanges(changes: SimpleChanges) {
+    this.updateChart(changes.plotData.currentValue);
+  }
+
+  updateChart(data) {
+    this.options.series[0].data = data;
+  }
+
   constructor(private httpClient: HttpClient, private cellService: CellService) { }
 
   ngOnInit() {
@@ -131,12 +131,12 @@ export class CellDetailComponent implements OnInit {
     this.updateChartSize();
   }
 
-  updateChartSize(){
-    let x=window.innerWidth;
-    if(x !== NaN && x <= 500){
-      Highcharts.charts[0].setSize(x-55,400,false);
+  updateChartSize() {
+    const x = window.innerWidth;
+    if (x !== NaN && x <= 500) {
+      Highcharts.charts[0].setSize(x - 55, 400, false);
     } else {
-      Highcharts.charts[0].setSize(500,400,false);
+      Highcharts.charts[0].setSize(500, 400, false);
     }
   }
 }
